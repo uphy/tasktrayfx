@@ -61,7 +61,9 @@ public class TaskTrayApplicationExample extends TaskTrayApplication {
     final BorderPane pane = new BorderPane();
     pane.setCenter(text);
     stage.setScene(new Scene(pane));
-    stage.show();
-    stage.centerOnScreen();
+  }
+
+  public static void main(String[] args) {
+    launch(args);
   }
 }

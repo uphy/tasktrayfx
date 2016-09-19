@@ -60,8 +60,15 @@ public abstract class TaskTrayApplication extends Application {
         throw new RuntimeException(e);
       }
       initSystemTrayIcon(this.icon);
+      hide();
+      Platform.runLater(() -> {
+        try {
+          startImpl(stage);
+        } catch (Exception e) {
+          throw new RuntimeException(e);
+        }
+      });
     });
-    startImpl(stage);
   }
 
   protected void initSystemTrayIcon(TaskTrayIcon icon) {
