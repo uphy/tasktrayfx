@@ -12,11 +12,13 @@
  */
 package jp.uphy.tasktrayfx;
 
+import java.awt.CheckboxMenuItem;
 import java.awt.Image;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.TrayIcon;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
@@ -41,9 +43,21 @@ public class TaskTrayIcon {
     this.icon.addMouseListener(l);
   }
 
+  public CheckboxMenuItem addCheckboxMenuItem(String title, ItemListener l) {
+    final CheckboxMenuItem menuItem = new CheckboxMenuItem(title);
+    menuItem.addItemListener(l);
+    addMenuItem(menuItem);
+    return menuItem;
+  }
+
+  public void addMenuItem(MenuItem item) {
+    this.popupMenu.add(item);
+  }
+
   public MenuItem addMenuItem(String title, ActionListener l) {
-    final MenuItem menuItem = createMenuItem(title, l);
-    this.popupMenu.add(menuItem);
+    final MenuItem menuItem = new MenuItem(title);
+    menuItem.addActionListener(l);
+    addMenuItem(menuItem);
     return menuItem;
   }
 
@@ -57,12 +71,6 @@ public class TaskTrayIcon {
 
   public void setTooltip(String tooltip) {
     this.icon.setToolTip(tooltip);
-  }
-
-  private static MenuItem createMenuItem(String title, ActionListener l) {
-    final MenuItem item = new MenuItem(title);
-    item.addActionListener(l);
-    return item;
   }
 
   TrayIcon getIcon() {

@@ -15,7 +15,6 @@ package jp.uphy.tasktrayfx;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import javax.swing.SwingUtilities;
 import java.awt.AWTException;
@@ -33,22 +32,16 @@ public abstract class TaskTrayApplication extends Application {
   private Stage stage;
   private TaskTrayIcon icon;
   private MenuItem showMenuItem;
-  private double x;
-  private double y;
-  private double width;
-  private double height;
+  private double x = -1;
+  private double y = -1;
+  private double width = -1;
+  private double height = -1;
 
   @Override
   public final void start(final Stage primaryStage) throws Exception {
-    primaryStage.initStyle(StageStyle.TRANSPARENT);
-    primaryStage.setOnCloseRequest(e -> {
-      e.consume();
-      exit();
-    });
-    primaryStage.show();
-
+    Platform.setImplicitExit(false);
     this.icon = new TaskTrayIcon();
-    this.stage = new Stage();
+    this.stage = primaryStage;
     this.stage.setOnCloseRequest(e -> {
       e.consume();
       hide();
@@ -122,6 +115,9 @@ public abstract class TaskTrayApplication extends Application {
   }
 
   private void restoreStage() {
+    if (isStored() == false) {
+      return;
+    }
     this.stage.setX(this.x);
     this.stage.setY(this.y);
     this.stage.setWidth(this.width);
@@ -133,6 +129,10 @@ public abstract class TaskTrayApplication extends Application {
     this.y = this.stage.getY();
     this.width = this.stage.getWidth();
     this.height = this.stage.getHeight();
+  }
+
+  private boolean isStored() {
+    return this.x >= 0 && this.y >= 0 || this.width >= 0 || this.height >= 0;
   }
 
   void exit() {

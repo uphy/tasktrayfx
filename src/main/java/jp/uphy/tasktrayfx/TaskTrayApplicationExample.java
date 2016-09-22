@@ -20,6 +20,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+import java.awt.CheckboxMenuItem;
 import java.awt.Color;
 
 
